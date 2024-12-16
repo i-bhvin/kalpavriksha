@@ -116,6 +116,12 @@ int applyOperation(int a, int b, char op) {
     }
 }
 
+int stringLength(const char* str){
+    int i;
+    for(i=0; str[i] != '\0'; i++){}
+    return i;
+}
+
 
 int evaluateExpression(const char* expression) {
     IntStack values;
@@ -123,7 +129,7 @@ int evaluateExpression(const char* expression) {
     initIntStack(&values);
     initOpStack(&operators);
 
-    for (int i = 0; i < strlen(expression); i++) {
+    for (int i = 0; i < stringLength(expression); i++) {
         char c = expression[i];
 
         
