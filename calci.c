@@ -117,8 +117,8 @@ int applyOperation(int a, int b, char op) {
 }
 
 int stringLength(const char* str){
-    int i;
-    for(i=0; str[i] != '\0'; i++){}
+    int i=0;
+    while(str[i] != '\0') i++;
     return i;
 }
 
