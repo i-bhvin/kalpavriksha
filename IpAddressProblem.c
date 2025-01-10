@@ -11,20 +11,14 @@ int isDot(char *s){
     return (*s == '.');
 }
 
-int main() {
-    char input[16];
-    scanf("%s", input);
-    char *str = input;
+void isValidIPAddress(char *str){
     int dotCount = 0;
-    int alreadyInvalid = 0;
+    int alreadyInvalid = 0, isFirstCharacter = 1;
     while(*str){
         if(isDot(str)){
             dotCount++;
-            if(dotCount >= 4){
-                alreadyInvalid = 1;
-                break;
-            }
-            if(*(str + 1) == '\0' || *(str + 1) == '.'){
+
+            if(isFirstCharacter || dotCount >= 4 || *(str + 1) == '\0' || *(str + 1) == '.'){
                 alreadyInvalid = 1;
                 break;
             }
@@ -55,6 +49,7 @@ int main() {
             alreadyInvalid = 1;
             break;
         }
+        isFirstCharacter = 0;
         str++;
     }
     if(alreadyInvalid){
@@ -68,6 +63,16 @@ int main() {
     } 
     
     if(alreadyInvalid == 0 && *str == '\0') printf("Valid");
+    
+}
+
+
+int main() {
+    char input[16];
+    printf("Enter the IP Address:\n");
+    scanf("%s", input);
+    
+    isValidIPAddress(input);
     
     
 
