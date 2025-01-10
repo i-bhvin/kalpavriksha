@@ -1,20 +1,20 @@
 #include <stdio.h>
 
-long long modularExponentiation(long long B, long long N, long long M)
+long long modularExponentiation(long long Base, long long Power, long long Mod)
 {
     long long result = 1;
 
-    while (N > 0)
+    while (Power > 0)
     {
 
-        if (N % 2 == 1)
+        if (Power % 2 == 1)
         {
-            result = (result * B) % M;
+            result = (result * Base) % Mod;
         }
 
-        N /= 2;
+        Power /= 2;
 
-        B = (B * N) % M;
+        Base = (Base * Base) % Mod;
     }
 
     return result;
@@ -22,12 +22,17 @@ long long modularExponentiation(long long B, long long N, long long M)
 
 int main()
 {
-    long long B, N, M;
-    printf("Enter values for B, N, M: ");
-    scanf("%lld %lld %lld", &B, &N, &M);
+    long long Base, Power, Mod;
+    printf("Enter values for Base, Power, Mod: ");
+    scanf("%lld %lld %lld", &Base, &Power, &Mod);
+    
+    if(Base < 0 || Power < 0 || Mod < 0){
+        printf("Only Positive values are accepted");
+        return 0;
+    }
 
-    long long result = modularExponentiation(B, N, M);
-    printf("(B^N) %% M = %lld\n", result);
+    long long result = modularExponentiation(Base, Power, Mod);
+    printf("(Base^Power) %% Mod = %lld\n", result);
 
     return 0;
 }
