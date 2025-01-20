@@ -1,0 +1,186 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+ 
+typedef struct Node{
+    int data;
+    struct Node *next;
+}Node;
+ 
+Node *createNode(int val){
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = val;
+    newNode->next = NULL;
+    return newNode;
+}
+ 
+ 
+int countNode(Node *head){
+    int count = 0;
+    while(head){
+        count++;
+        head = head->next;
+    }
+    return count;
+}
+ 
+Node *insertAtBeginning(Node *head, int val){
+    Node *temp = createNode(val);
+    temp->next = head;
+    head = temp;
+    return head;
+}
+ 
+ 
+Node *insertAtEnd(Node *head, int val){
+    Node *newNode = createNode(val);
+    if(head == NULL){
+        return insertAtBeginning(head, val);
+    }
+    Node *temp = head;
+    while(temp->next) temp = temp->next;
+    temp->next = newNode;
+    return head;
+}
+ 
+ 
+Node *insertAtPosition(Node *head, int val, int pos){
+    int nodeCount = countNode(head);
+    if(pos < 1 || pos > nodeCount + 1){
+        printf("Invalid Position\n");
+        return head;
+    }
+    if(pos == 1){
+        return insertAtBeginning(head, val);
+    }
+    int count = 1;
+    Node *curr = head;
+    while(count < pos-1){
+        count++;
+        curr = curr->next;
+    }
+    Node *newNode = createNode(val);
+    newNode->next = curr->next;
+    curr->next = newNode;
+    return head;
+}
+ 
+void display(Node *head){
+    if(head == NULL) printf("Empty Linked List\n");
+    while(head){
+        printf("%d ", head->data);
+        head = head->next;
+    }
+    printf("\n");
+}
+ 
+Node *updateAtPosition(Node *head, int val, int pos){
+    int nodeCount = countNode(head);
+    if(pos < 1 || pos > nodeCount){
+        printf("Invalid Position\n");
+        return head;
+    }
+    int count = 1;
+    Node *curr = head;
+    while(count < pos){
+        count++;
+        curr = curr->next;
+    }
+    curr->data = val;
+    return head;
+}
+ 
+Node *deleteAtBeginning(Node *head){
+    if(head == NULL){
+        printf("Invalid");
+        return head;
+    }
+    Node *temp = head;
+    head = head->next;
+    free(temp);
+    return head;
+}
+ 
+Node *deleteAtEnd(Node *head){
+    if(head == NULL){
+        printf("Invalid");
+        return head;
+    }
+    if(head->next == NULL){
+        free(head);
+        return NULL;
+    }
+    Node *curr = head, *prev = NULL;
+    while(curr->next){
+        prev = curr;
+        curr = curr->next;
+    }
+    prev->next = NULL;
+    free(curr);
+    return head;
+}
+ 
+Node *deleteAtPosition(Node *head, int pos){
+    int nodeCount = countNode(head);
+    if(pos < 1 || pos > nodeCount){
+        printf("Invalid Position\n");
+        return head;
+    }
+    int count = 1;
+    Node *curr = head;
+    while(count < pos-1){
+        count++;
+        curr = curr->next;
+    }
+    Node *temp = curr->next;
+    curr->next = temp->next;
+    free(temp);
+    return head;
+}
+ 
+ 
+int main() {
+    int n;
+    scanf("%d", &n);
+    Node *head = NULL;
+    while(n--){
+        int choice;
+        scanf("%d", &choice);
+        int val, pos;
+        switch(choice){
+            case 1:
+                scanf("%d", &val);
+                head = insertAtEnd(head, val);
+                break;
+            case 2:
+                scanf("%d", &val);
+                head = insertAtBeginning(head, val);
+                break;
+            case 3:
+                scanf("%d %d", &pos, &val);
+                head = insertAtPosition(head, val, pos);
+                break;
+            case 4:
+                display(head);
+                break;
+            case 5:
+                scanf("%d %d", &pos, &val);
+                head = updateAtPosition(head, val, pos);
+                break;
+            case 6:
+                head = deleteAtBeginning(head);
+                break;
+            case 7:
+                head = deleteAtEnd(head);
+                break;
+            case 8:
+                scanf("%d", &pos);
+                head = deleteAtPosition(head, pos);
+                break;
+            default:
+                printf("Invalid Choice\n");
+                break;
+        }
+    }
+    return 0;
+}
